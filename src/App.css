@@ -1,0 +1,33 @@
+.app-container {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: #f9f7fd;
+}
+
+.app-header {
+  padding: 4px 16px; /* Reduced vertical padding */
+  text-align: left;
+  font-size: 1.4rem;
+  font-weight: bold;
+  background: #e0e4f7;
+  color: #6a52a0;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+/* Remove default spacing from h1 inside header */
+.app-header h1 {
+  margin: 0;
+  padding: 0;
+  line-height: 1.2;
+}
+
+.main-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+
+

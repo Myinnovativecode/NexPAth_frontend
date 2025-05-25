@@ -1,0 +1,143 @@
+.chat-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  background: linear-gradient(to bottom right, #f5f0ff, #e6f7f7);
+  font-family: 'Segoe UI', sans-serif;
+  overflow: hidden;
+}
+
+.chat-header {
+  background-color: #f6f3ff;
+  padding: 16px 24px;
+  text-align: center;
+  border-bottom: 1px solid #ddd;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.chat-title {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #6a52a0;
+}
+
+.chat-body {
+  flex: 1;
+  padding: 1rem;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  background-color: #ffffff;
+  scrollbar-width: thin;
+  scrollbar-color: #ccc transparent;
+}
+
+.chat-body::-webkit-scrollbar {
+  width: 6px;
+}
+
+.chat-body::-webkit-scrollbar-thumb {
+  background-color: #ccc;
+  border-radius: 3px;
+}
+
+.chat-body::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.chat-message {
+  max-width: 70%;
+  padding: 0.75rem 1rem;
+  border-radius: 1rem;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  white-space: pre-line;
+}
+
+.user-msg {
+  background-color: #b39ddb;
+  align-self: flex-end;
+  color: white;
+  border-bottom-right-radius: 0;
+}
+
+.bot-msg {
+  background-color: #ffffff;
+  align-self: flex-start;
+  color: #333;
+  border-bottom-left-radius: 0;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.typing-indicator {
+  font-size: 0.85rem;
+  color: #999;
+  align-self: flex-start;
+}
+
+/* Chat input section with mic + send button */
+.chat-input-section {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  border-top: 1px solid #ddd;
+  padding: 0.75rem 1rem;
+  background-color: #f6f3ff;
+  position: sticky;
+  bottom: 0;
+  z-index: 100;
+}
+
+.chat-input-section input {
+  flex: 1;
+  padding: 0.75rem 1rem;
+  border-radius: 1.5rem;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+  outline: none;
+  background-color: #fff;
+}
+
+/* 🎤 Updated microphone button styles */
+.chat-input-section button:first-of-type {
+  background-color: #7a5ea7; /* Match purple like send button */
+  color: white;              /* Icon color to white */
+  border: none;
+  border-radius: 50%;
+  padding: 0.6rem;
+  cursor: pointer;
+  transition: background 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.chat-input-section button:first-of-type:hover {
+  background-color: #5e478d; /* Slightly darker purple on hover */
+}
+
+.chat-input-section button:first-of-type:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+/* ✉️ Send button styles (second button) */
+.chat-input-section button:last-of-type {
+  background-color: #7a5ea7;
+  border: none;
+  border-radius: 50%;
+  padding: 0.6rem;
+  cursor: pointer;
+  color: white;
+  transition: background 0.2s ease;
+}
+
+.chat-input-section button:last-of-type:hover {
+  background-color: #5e478d;
+}
+
+
+
