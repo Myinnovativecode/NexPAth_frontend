@@ -16,7 +16,7 @@ const App: React.FC = () => {
     } else {
       setTimeout(() => {
         setShowAuthModal(true);
-      }, 60000); // Show modal after 1 min if not authenticated
+      }, 8000); // Show modal after 1 min if not authenticated
     }
   }, []);
 
