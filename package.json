@@ -17,6 +17,7 @@
     "react-dom": "^19.0.0",
     "react-icons": "^5.5.0",
     "react-markdown": "^10.1.0",
+    "react-router-dom": "^7.6.1",
     "react-speech-recognition": "^4.0.1",
     "remark-breaks": "^4.0.0",
     "remark-gfm": "^4.0.1",

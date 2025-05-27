@@ -1,0 +1,66 @@
+/* components/Sidebar.css */
+
+.sidebar {
+  width: 10%;
+  background-color: #f4f4fa; /* Slightly darker than before */
+  border-right: 2px solid #dddd; /* Slightly darker border for better contrast */
+  padding: 1rem;
+  height: 100vh; /* Make sidebar full height */
+}
+
+.sidebar-logo {
+  width: 70px;  /* Adjust as needed */
+  height: auto;
+  margin-bottom: 20px;
+  display: block;
+}
+
+
+.sidebar-menu {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.sidebar-menu li {
+  margin: 0.8rem 0;
+  cursor: pointer;
+  transition: background 0.2s, padding 0.2s;
+  padding: 0.2rem 0.4rem;
+  border-radius: 6px;
+}
+
+.sidebar-menu li:hover {
+  background-color: #c6bde8; /* Slightly darker hover */
+}
+
+
+
+.sidebar {
+  transition: width 0.3s ease;
+  width: 150px;
+  min-height: 100vh;
+  background-color: #f3f0ff;
+  padding: 10px;
+  overflow: hidden;
+}
+
+.sidebar.closed {
+  width: 0;
+  padding: 0;
+  border: none;
+}
+
+.sidebar-toggle {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background-color: #d8c4f1;
+  color: #000;
+  border: none;
+  border-radius: 4px;
+  padding: 6px 10px;
+  cursor: pointer;
+  z-index: 1000;
+}
+

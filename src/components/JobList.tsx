@@ -1,5 +1,9 @@
 import React, { useState, useEffect } from 'react';
 
+interface JobListProps {
+  userId: string;
+}
+
 // Define the shape of a job object
 interface Job {
   id: string;
@@ -8,21 +12,20 @@ interface Job {
   job_apply_link: string;
 }
 
-const JobList: React.FC = () => {
-  const [jobs, setJobs] = useState<Job[]>([]);  // Array of jobs with type definition
-  const [loading, setLoading] = useState<boolean>(false);  // Boolean for loading state
-  const jobsPerPage = 10; // Number of jobs per API request
-  const [page, setPage] = useState<number>(1); // Track the current page
+const JobList: React.FC<JobListProps> = ({ userId }) => {
+  const [jobs, setJobs] = useState<Job[]>([]);
+  const [loading, setLoading] = useState<boolean>(false);
+  const jobsPerPage = 10;
+  const [page, setPage] = useState<number>(1);
 
-  // Fetch job data from the backend API
   const fetchJobs = () => {
     setLoading(true);
-    fetch(`/api/jobs?page=${page}&limit=${jobsPerPage}`)
+    fetch(`/api/jobs?userId=${userId}&page=${page}&limit=${jobsPerPage}`)
       .then(response => response.json())
       .then((data: { jobs: Job[] }) => {
-        setJobs(prevJobs => [...prevJobs, ...data.jobs]);  // Append new jobs to existing ones
+        setJobs(prevJobs => [...prevJobs, ...data.jobs]);
         setLoading(false);
-        setPage(prevPage => prevPage + 1);  // Increment page number for next fetch
+        setPage(prevPage => prevPage + 1);
       })
       .catch(error => {
         console.error('Error fetching jobs:', error);
@@ -31,10 +34,9 @@ const JobList: React.FC = () => {
   };
 
   useEffect(() => {
-    fetchJobs();  // Initial job fetch when component mounts
-  }, []);  // Empty dependency array to fetch only once when the component is mounted
+    fetchJobs();
+  }, []);
 
-  // Handle scroll event to detect when user reaches the bottom
   const handleScroll = (e: React.UIEvent<HTMLDivElement>) => {
     const target = e.target as HTMLElement;
     const bottom = target.scrollHeight === target.scrollTop + target.clientHeight;
@@ -42,7 +44,6 @@ const JobList: React.FC = () => {
       fetchJobs();
     }
   };
-  
 
   return (
     <div onScroll={handleScroll} style={{ maxHeight: '600px', overflowY: 'auto' }}>
@@ -55,10 +56,11 @@ const JobList: React.FC = () => {
           </li>
         ))}
       </ul>
-      {loading && <p>Loading more jobs...</p>} {/* Show loading text while fetching */}
+      {loading && <p>Loading more jobs...</p>}
     </div>
   );
 };
 
 export default JobList;
+
 
