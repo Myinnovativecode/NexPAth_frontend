@@ -5,6 +5,7 @@ import Sidebar from "./components/Sidebar";
 import ChatMain from "./components/ChatMain";
 import AuthModal from "./components/AuthModal";
 import JobList from "./components/JobList";
+import UserProfile from "./components/UserProfile";
 
 const App: React.FC = () => {
   const [isAuthModalOpen, setAuthModalOpen] = useState(false);
@@ -12,8 +13,7 @@ const App: React.FC = () => {
   const [userId, setUserId] = useState<string | null>(null);
   const [userName, setUserName] = useState<string | null>(null);
   const [sessionId, setSessionId] = useState<string | null>(null);
-  const [showJobList, setShowJobList] = useState(false);
-  const [showProfile, setShowProfile] = useState(false);
+  const [selectedPage, setSelectedPage] = useState<"chat" | "jobs" | "profile">("chat");
   const [isSidebarOpen, setSidebarOpen] = useState(true);
 
   useEffect(() => {
@@ -58,13 +58,7 @@ const App: React.FC = () => {
     setUserId(null);
     setUserName(null);
     localStorage.removeItem("ashaUser");
-    setShowJobList(false);
-    setShowProfile(false);
-  };
-
-  const handleProfileClick = () => {
-    setShowProfile(true);
-    setShowJobList(false);
+    setSelectedPage("chat");
   };
 
   const handleNewSession = (newSessionId: string, title: string) => {
@@ -76,60 +70,53 @@ const App: React.FC = () => {
     setSidebarOpen(!isSidebarOpen);
   };
 
- return (
-  <div className="app-wrapper">
-    <Sidebar
-      isOpen={isSidebarOpen}
-      userName={userName}
-      onAuthClick={handleAuthClick}
-      onLogout={handleLogout}
-      onProfileClick={handleProfileClick}
-      setShowJobList={setShowJobList}
-      setShowProfile={setShowProfile}
-    />
+  return (
+    <div className="app-wrapper">
+      <Sidebar
+        isOpen={isSidebarOpen}
+        userName={userName}
+        onAuthClick={handleAuthClick}
+        onLogout={handleLogout}
+        onSelectPage={setSelectedPage}
+      />
 
-    <div className="main-app-area">
-      <button className="sidebar-toggle" onClick={toggleSidebar}>
-        {isSidebarOpen ? "←" : "☰"}
-      </button>
+      <div className="main-app-area">
+        <button className="sidebar-toggle" onClick={toggleSidebar}>
+          {isSidebarOpen ? "←" : "☰"}
+        </button>
 
-     
+        {isAuthModalOpen && (
+          <AuthModal
+            isOpen={isAuthModalOpen}
+            onClose={() => setAuthModalOpen(false)}
+            onAuthSuccess={handleAuthSuccess}
+            mode={authMode}
+          />
+        )}
 
-      {isAuthModalOpen && (
-        <AuthModal
-          isOpen={isAuthModalOpen}
-          onClose={() => setAuthModalOpen(false)}
-          onAuthSuccess={handleAuthSuccess}
-          mode={authMode}
-        />
-      )}
-
-      <div className="main-content">
-        {userId ? (
-          showJobList ? (
-            <JobList userId={userId} />
-          ) : showProfile ? (
-            <div style={{ padding: "20px", fontSize: "18px" }}>
-              <h2>My Profile</h2>
-              <p><strong>Name:</strong> {userName}</p>
-              <p><strong>User ID:</strong> {userId}</p>
-            </div>
-          ) : (
-            <ChatMain
-              userId={userId}
-              sessionId={sessionId}
-              onNewSession={handleNewSession}
-            />
-          )
-        ) : null}
+        <div className="main-content">
+          {userId ? (
+            selectedPage === "profile" ? (
+              <UserProfile userId={userId} />
+            ) : selectedPage === "jobs" ? (
+              <JobList userId={userId} />
+            ) : (
+              <ChatMain
+                userId={userId}
+                sessionId={sessionId}
+                onNewSession={handleNewSession}
+              />
+            )
+          ) : null}
+        </div>
       </div>
     </div>
-  </div>
-);
-
+  );
 };
 
 export default App;
+
+
 
 
 

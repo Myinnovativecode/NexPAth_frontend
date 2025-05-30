@@ -4,7 +4,6 @@
   height: 100vh;
   background: linear-gradient(to bottom right, #f5f0ff, #e6f7f7);
   font-family: 'Segoe UI', sans-serif;
-  overflow: hidden;
 }
 
 .chat-header {
@@ -29,63 +28,41 @@
   overflow-y: auto;
   display: flex;
   flex-direction: column;
-  gap: 0.8rem;
-  background-color: #ffffff;
-  scrollbar-width: thin;
-  scrollbar-color: #ccc transparent;
-}
-
-.chat-body::-webkit-scrollbar {
-  width: 6px;
-}
-
-.chat-body::-webkit-scrollbar-thumb {
-  background-color: #ccc;
-  border-radius: 3px;
-}
-
-.chat-body::-webkit-scrollbar-track {
-  background: transparent;
+  gap: 0.5rem;
 }
 
 .chat-message {
-  max-width: 70%;
-  padding: 0.75rem 1rem;
-  border-radius: 1rem;
-  font-size: 0.95rem;
-  line-height: 1.6;
-  white-space: pre-line;
+  max-width: 80%;
+  padding: 10px 14px;
+  border-radius: 16px;
+  word-wrap: break-word;
+  white-space: pre-wrap;
 }
 
 .user-msg {
-  background-color: #b39ddb;
   align-self: flex-end;
-  color: white;
-  border-bottom-right-radius: 0;
+  background-color: #cce5ff;
+  color: #003366;
 }
 
 .bot-msg {
-  background-color: #ffffff;
   align-self: flex-start;
-  color: #333;
-  border-bottom-left-radius: 0;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  background-color: #f3e8ff;
+  color: #4a006e;
 }
 
 .typing-indicator {
-  font-size: 0.85rem;
-  color: #999;
-  align-self: flex-start;
+  font-style: italic;
+  color: #666;
+  font-size: 0.9rem;
 }
 
-/* Chat input section with mic + send button */
 .chat-input-section {
   display: flex;
-  align-items: center;
-  gap: 0.5rem;
+  padding: 12px;
+  gap: 8px;
   border-top: 1px solid #ddd;
-  padding: 0.75rem 1rem;
-  background-color: #f6f3ff;
+  background-color: #ffffff;
   position: sticky;
   bottom: 0;
   z-index: 100;
@@ -93,51 +70,35 @@
 
 .chat-input-section input {
   flex: 1;
-  padding: 0.75rem 1rem;
-  border-radius: 1.5rem;
+  padding: 10px 14px;
+  border-radius: 24px;
   border: 1px solid #ccc;
-  font-size: 1rem;
   outline: none;
-  background-color: #fff;
+  font-size: 1rem;
 }
 
-/* 🎤 Updated microphone button styles */
-.chat-input-section button:first-of-type {
-  background-color: #7a5ea7; /* Match purple like send button */
-  color: white;              /* Icon color to white */
+.chat-input-section button {
+  background-color: #6a52a0;
   border: none;
-  border-radius: 50%;
-  padding: 0.6rem;
-  cursor: pointer;
-  transition: background 0.2s ease;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.chat-input-section button:first-of-type:hover {
-  background-color: #5e478d; /* Slightly darker purple on hover */
-}
-
-.chat-input-section button:first-of-type:disabled {
-  cursor: not-allowed;
-  opacity: 0.6;
-}
-
-/* ✉️ Send button styles (second button) */
-.chat-input-section button:last-of-type {
-  background-color: #7a5ea7;
-  border: none;
-  border-radius: 50%;
-  padding: 0.6rem;
-  cursor: pointer;
   color: white;
-  transition: background 0.2s ease;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
 }
 
-.chat-input-section button:last-of-type:hover {
-  background-color: #5e478d;
+.chat-input-section button:disabled {
+  background-color: #6a52a0;
+  cursor: not-allowed;
 }
+
+.chat-input-section button:hover:not(:disabled) {
+  background-color: #573d90;
+}
+
 
 
 

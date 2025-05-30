@@ -1,4 +1,3 @@
-// Sidebar.tsx
 import {
   FaUser,
   FaBriefcase,
@@ -17,9 +16,7 @@ interface SidebarProps {
   onAuthClick: (mode: "login" | "signup") => void;
   userName: string | null;
   onLogout: () => void;
-  onProfileClick: () => void;
-  setShowJobList: (val: boolean) => void;
-  setShowProfile: (val: boolean) => void;
+  onSelectPage: (page: "chat" | "profile" | "jobs") => void;
 }
 
 const Sidebar: React.FC<SidebarProps> = ({
@@ -27,20 +24,8 @@ const Sidebar: React.FC<SidebarProps> = ({
   onAuthClick,
   userName,
   onLogout,
-  onProfileClick,
-  setShowJobList,
-  setShowProfile,
+  onSelectPage,
 }) => {
-  const handleFindJobs = () => {
-    setShowJobList(true);
-    setShowProfile(false);
-  };
-
-  const handleMentorship = () => {
-    setShowJobList(false);
-    setShowProfile(false);
-  };
-
   return (
     <aside className={`sidebar ${isOpen ? "open" : "closed"}`}>
       <img src={ashaLogo} alt="Asha Logo" className="sidebar-logo" />
@@ -48,13 +33,13 @@ const Sidebar: React.FC<SidebarProps> = ({
         {userName ? (
           <>
             <li className="welcome-msg">👋 Welcome, {userName}</li>
-            <li onClick={onProfileClick}>
+            <li onClick={() => onSelectPage("profile")}>
               <FaUser style={{ marginRight: "8px" }} /> My Profile
             </li>
-            <li onClick={handleFindJobs}>
+            <li onClick={() => onSelectPage("jobs")}>
               <FaBriefcase style={{ marginRight: "8px" }} /> Find Jobs
             </li>
-            <li onClick={handleMentorship}>
+            <li onClick={() => onSelectPage("chat")}>
               <FaChalkboardTeacher style={{ marginRight: "8px" }} /> Get Mentorship
             </li>
             <li onClick={onLogout} className="logout-btn">
@@ -77,6 +62,7 @@ const Sidebar: React.FC<SidebarProps> = ({
 };
 
 export default Sidebar;
+
 
 
 

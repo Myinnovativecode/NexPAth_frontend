@@ -40,6 +40,8 @@ const AuthModal: React.FC<AuthModalProps> = ({
       const data = await response.json();
       if (response.ok && data.user_id) {
         onAuthSuccess(data.user_id, data.name);
+        // onAuthSuccess(Number(data.user_id), data.name);
+
         onClose(); // Close modal on success
       } else {
         alert(data.detail || "Authentication failed");

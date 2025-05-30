@@ -165,7 +165,7 @@ const ChatMain: React.FC<ChatMainProps> = ({ userId, sessionId, onNewSession }) 
     }
   };
 
-  //  Voice recognition setup
+  // 🎤 Voice recognition setup
   const handleMicClick = () => {
     if (!SpeechRecognitionConstructor) {
       alert('Speech recognition not supported in this browser.');
@@ -256,6 +256,8 @@ const ChatMain: React.FC<ChatMainProps> = ({ userId, sessionId, onNewSession }) 
 };
 
 export default ChatMain;
+
+
 
 
 
