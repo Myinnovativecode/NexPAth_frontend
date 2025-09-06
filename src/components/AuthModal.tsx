@@ -4,7 +4,7 @@ import "./AuthModal.css";
 interface AuthModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onAuthSuccess: (userId: string, name: string) => void;
+  onAuthSuccess: (userId: string, name: string, email: string) => void; // Updated to include email
   mode: "login" | "signup";
 }
 
@@ -39,9 +39,8 @@ const AuthModal: React.FC<AuthModalProps> = ({
 
       const data = await response.json();
       if (response.ok && data.user_id) {
-        onAuthSuccess(data.user_id, data.name);
-        // onAuthSuccess(Number(data.user_id), data.name);
-
+        // Pass email to onAuthSuccess
+        onAuthSuccess(data.user_id, data.name || name, email);
         onClose(); // Close modal on success
       } else {
         alert(data.detail || "Authentication failed");
@@ -92,7 +91,7 @@ const AuthModal: React.FC<AuthModalProps> = ({
           <div className="auth-toggle">
             {isLogin ? (
               <p>
-                Don’t have an account?{" "}
+                Don't have an account?{" "}
                 <span onClick={() => setIsLogin(false)} className="auth-link">
                   Sign Up
                 </span>

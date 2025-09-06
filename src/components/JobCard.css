@@ -1,0 +1,239 @@
+/* JobCard.css */
+.job-card {
+  border-radius: 8px;
+  box-shadow: 0 2px 8px var(--shadow-color); /* Use the shadow color variable */
+  padding: 16px;
+  margin-bottom: 16px;
+  background-color: #fff;  /* Default: light background, overwritten in dark mode */
+  transition: transform 0.2s, box-shadow 0.2s;
+  /* Specific dark mode styling, using the theme variables */
+  background-color: var(--bg-secondary); /* Use the secondary background */
+  color: var(--text-primary); /* Use primary text color */
+  border: 1px solid var(--border-color);
+}
+
+.job-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.job-card-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 12px;
+  position: relative;
+}
+
+.job-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: #333; /* Default: light text, overwritten in dark mode */
+  margin: 0 0 4px 0;
+  flex-grow: 1;
+  color: var(--text-primary); /* Use primary text color in dark mode */
+}
+
+.job-company {
+  font-size: 16px;
+  color: #555;  /* Default, overwritten in dark mode */
+  font-weight: 500;
+  display: block;
+  color: var(--text-secondary);
+}
+
+.job-details {
+  display: flex;
+  flex-wrap: wrap;
+  margin-bottom: 12px;
+  font-size: 14px;
+  color: #666; /* Default, overwritten in dark mode */
+  color: var(--text-tertiary);
+}
+
+.job-location-type {
+  display: flex;
+  margin-right: 16px;
+  margin-bottom: 8px;
+}
+
+.job-location {
+  margin-right: 8px;
+}
+
+.job-type {
+  background-color: #f0f0f0; /* Default: light background, overwritten in dark mode */
+  padding: 2px 8px;
+  border-radius: 4px;
+  margin-left: 8px;
+  background-color: var(--bg-tertiary);
+  color: var(--text-secondary);
+}
+
+.job-salary, .job-date {
+  margin-right: 16px;
+  margin-bottom: 8px;
+}
+
+.job-description {
+  margin-bottom: 16px;
+  font-size: 14px;
+  color: #444; /* Default: light text, overwritten in dark mode */
+  line-height: 1.5;
+  color: var(--text-secondary);
+}
+
+.job-actions {
+  display: flex;
+  gap: 12px;
+}
+
+.apply-button, .website-button {
+  padding: 8px 16px;
+  border-radius: 4px;
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 14px;
+  transition: background-color 0.2s;
+  background-color: #0066cc; /* Default, overwritten in dark mode */
+  color: white;
+}
+
+.apply-button:hover {
+  background-color: #0055aa;
+}
+
+.website-button {
+  background-color: #f0f0f0; /* Default: light background, overwritten in dark mode */
+  color: #333; /* Default: light text, overwritten in dark mode */
+  background-color: var(--bg-tertiary); /* Use a slightly lighter background */
+  color: var(--text-secondary);
+}
+
+.website-button:hover {
+  background-color: #e0e0e0;
+}
+
+/* Add to JobCard.css */
+/* Copy button styles */
+.copy-button-container {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+.copy-button {
+  background: none;
+  border: none;
+  color: #666;
+  cursor: pointer;
+  padding: 6px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.2s;
+  position: relative;
+}
+
+.copy-button:hover {
+  background-color: #f0f0f0;
+  color: #333;
+}
+
+.copy-button .tooltip {
+  visibility: hidden;
+  background-color: rgba(0, 0, 0, 0.7);
+  color: white;
+  text-align: center;
+  border-radius: 4px;
+  padding: 5px 10px;
+  position: absolute;
+  z-index: 1;
+  bottom: 125%;
+  left: 50%;
+  transform: translateX(-50%);
+  opacity: 0;
+  transition: opacity 0.3s;
+  white-space: nowrap;
+  font-size: 12px;
+  font-weight: normal;
+}
+
+.copy-button:hover .tooltip {
+  visibility: visible;
+  opacity: 1;
+}
+
+/* Save button styles (as before) */
+.save-button {
+  padding: 8px 16px;
+  border-radius: 4px;
+  font-weight: 500;
+  font-size: 14px;
+  transition: background-color 0.2s;
+  background-color: #f0f0f0;
+  color: #333;
+  border: 1px solid #ddd;
+  cursor: pointer;
+}
+
+.save-button:hover:not(:disabled) {
+  background-color: #e0e0e0;
+}
+
+.save-button.saved {
+  background-color: #e6f7e6;
+  color: #2e7d32;
+  border-color: #c8e6c9;
+}
+
+.save-button:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+/* Dark Mode Overrides - Important! */
+.dark-theme .job-card {
+    background-color: var(--bg-secondary); /* Darker background for the card */
+    color: var(--text-primary); /* Light text */
+    border: 1px solid var(--border-color); /* Dark border */
+}
+
+.dark-theme .job-title {
+    color: var(--text-primary);
+}
+
+.dark-theme .job-company {
+  color: var(--text-secondary); /* Less emphasis on the company name */
+}
+
+.dark-theme .job-details {
+    color: var(--text-tertiary); /* Even less emphasis, or a secondary text color */
+}
+
+.dark-theme .job-type {
+    background-color: var(--bg-tertiary);  /* Darker, but not the primary background */
+    color: var(--text-secondary);
+}
+
+.dark-theme .job-description {
+    color: var(--text-secondary);
+}
+.dark-theme .apply-button,
+.dark-theme .website-button {
+    /* You can choose the color and hover states that best fit your overall dark theme */
+    color: white; /* Or use a contrasting color from your palette */
+    background-color: var(--accent-color); /* Use the accent color */
+}
+
+.dark-theme .apply-button:hover {
+    background-color: var(--accent-hover);
+}
+
+.dark-theme .website-button {
+    background-color: var(--bg-tertiary); /* Same background as .job-type in dark mode */
+    color: var(--text-secondary);
+}
+
+.dark-theme .website-button:hover {
+    background-color: var(--bg-tertiary);
+}

@@ -1,104 +1,674 @@
-.chat-container {
-  display: flex;
-  flex-direction: column;
-  height: 100vh;
-  background: linear-gradient(to bottom right, #f5f0ff, #e6f7f7);
-  font-family: 'Segoe UI', sans-serif;
+/* ChatMain.css - Complete Replacement with Theme Support */
+
+/* ======================================= */
+/* === CSS Variables for Theming === */
+/* ======================================= */
+
+:root {
+  /* Light theme colors */
+  --bg-primary: #ffffff;
+  --bg-secondary: #f7fafc;
+  --bg-tertiary: #e2e8f0;
+  --text-primary: #1a202c;
+  --text-secondary: #4a5568;
+  --text-tertiary: #718096;
+  --border-color: #05080d;
+  --accent-color: #3182ce;
+  --accent-hover: #2563eb;
+  --scrollbar-bg: rgba(0, 0, 0, 0.05);
+  --scrollbar-thumb: #cbd5e0;
+  --scrollbar-thumb-hover: #a0aec0;
+  --shadow-color: rgba(0, 0, 0, 0.1);
+  --input-bg: #f7fafc;
+  --bot-msg-bg: #f7fafc;
+  --bot-msg-border: #e2e8f0;
+
+  /* New: Cloud/Gradient effect colors for light theme */
+  --cloud-gradient-color: rgba(255, 255, 255, 1); /* Opaque background color */
+  --cloud-gradient-transparent: rgba(255, 255, 255, 0); /* Transparent version */
 }
 
-.chat-header {
-  background-color: #f6f3ff;
-  padding: 16px 24px;
+.dark-theme {
+  /* Dark theme colors */
+  --bg-primary: #1a202c;
+  --bg-secondary: #2d3748;
+  --bg-tertiary: #4a5568;
+  --text-primary: #f7fafc;
+  --text-secondary: #a0aec0;
+  --text-tertiary: #718096;
+  --border-color: #4a5568;
+  --accent-color: #3182ce;
+  --accent-hover: #2563eb;
+  --scrollbar-bg: rgba(255, 255, 255, 0.05);
+  --scrollbar-thumb: #4a5568;
+  --scrollbar-thumb-hover: #718096;
+  --shadow-color: rgba(0, 0, 0, 0.3);
+  --input-bg: #2d3748;
+  --bot-msg-bg: #2d3748;
+  --bot-msg-border: #4a5568;
+
+  /* New: Cloud/Gradient effect colors for dark theme */
+  --cloud-gradient-color: rgba(26, 32, 44, 1); /* Opaque background color from --bg-primary */
+  --cloud-gradient-transparent: rgba(26, 32, 44, 0); /* Transparent version */
+}
+
+/* ======================================= */
+/* === Core Layout with Fixed Header === */
+/* ======================================= */
+
+.chat-container {
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--bg-primary);
+  position: relative; /* Essential for positioning the overlays */
+  overflow: hidden;
+  transition: background-color 0.3s ease;
+}
+
+/* Creates the 60px space for a header at the top */
+.chat-container::before {
+  content: '';
+  display: block;
+  height: 60px;
+  background-color: var(--bg-primary);
+  flex-shrink: 0;
+  z-index: 10; /* Ensures header background is on top */
+  position: relative;
+}
+
+/* === NEW: Top Cloud/Gradient Overlay === */
+.chat-container::after {
+  content: '';
+  position: absolute;
+  top: 60px; /* Starts right below your 60px header space */
+  left: 0;
+  right: 0;
+  height: 50px; /* The height of the fade effect */
+  background: linear-gradient(to bottom, 
+    var(--cloud-gradient-color) 0%, 
+    var(--cloud-gradient-transparent) 100%
+  );
+  pointer-events: none;
+  z-index: 5; 
+}
+
+/* Chat Body with space at the bottom */
+.chat-body {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+  padding: 0.5rem 1rem;
+  padding-bottom: 140px; /* Space for the bottom input bar */
+  position: relative;
+  background-color: var(--bg-primary);
+  scrollbar-width: thin;
+  scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-bg);
+}
+/* Empty chat state */
+.empty-chat {
+  /* height: 100%; */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+
+
+/* Webkit browsers */
+.chat-body::-webkit-scrollbar {
+  width: 8px;
+}
+
+.chat-body::-webkit-scrollbar-track {
+  background: var(--scrollbar-bg);
+  border-radius: 10px;
+}
+
+.chat-body::-webkit-scrollbar-thumb {
+  background: var(--scrollbar-thumb);
+  border-radius: 10px;
+  border: 2px solid transparent;
+  background-clip: content-box;
+}
+
+.chat-body::-webkit-scrollbar-thumb:hover {
+  background: var(--scrollbar-thumb-hover);
+}
+
+/* Firefox */
+.chat-body {
+  scrollbar-width: thin;
+  scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-bg);
+}
+
+/* ======================================= */
+/* === Welcome Section === */
+/* ======================================= */
+
+.chat-welcome {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; /* This makes the container take up the full viewport height */
   text-align: center;
-  border-bottom: 1px solid #ddd;
-  position: sticky;
-  top: 0;
-  z-index: 100;
+  padding: 1rem 1rem;
+  animation: fadeIn 0.5s ease-in;
 }
 
 .chat-title {
-  font-size: 1.2rem;
-  font-weight: 600;
-  color: #6a52a0;
+  font-size: 3.0rem;
+  font-weight: 700;
+  color: var(--accent-color);
+  margin: 0 0 0.8rem 0;
+  line-height: 1.2;
+  max-width: 550px;
+  /* These are not needed with flexbox parent */
+  /* margin-left: auto; */
+  /* margin-right: auto; */
 }
 
-.chat-body {
-  flex: 1;
-  padding: 1rem;
-  overflow-y: auto;
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
 }
+
+
+/* ======================================= */
+/* === Chat Messages (Updated for Chat-like Flow) === */
+/* ======================================= */
 
 .chat-message {
-  max-width: 80%;
+  /* A max-width of around 80% is standard for chat interfaces */
+  max-width: 70%;
   padding: 10px 14px;
-  border-radius: 16px;
+  border-radius: 12px;
   word-wrap: break-word;
   white-space: pre-wrap;
+  line-height: 1.4; /* Increased for better readability */
+  animation: messageSlide 0.3s ease-out;
+  box-sizing: border-box; /* Ensures padding doesn't affect the final width */
+  /* ADD THIS LINE: Adds horizontal padding around the message content */
+  margin: 0 100px;
 }
 
+@keyframes messageSlide {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/*
+  USER MESSAGES: Aligned to the RIGHT.
+  - `align-self: flex-end` is the key property that pushes the message to the right side of the flex container (.chat-body).
+  - We REMOVE `margin-left` to allow it to align to the very edge.
+  - The background is set to your accent color for clear distinction.
+*/
 .user-msg {
   align-self: flex-end;
-  background-color: #cce5ff;
-  color: #003366;
+  background-color: var(--bot-msg-bg);
+  color: var(--accent-color); /* User messages typically have light text on a dark background */
 }
 
+/*
+  BOT MESSAGES: Aligned to the LEFT.
+  - `align-self: flex-start` keeps the message on the left side.
+  - We REMOVE `margin-right` because the `max-width` property already controls its size.
+  - The background is kept neutral, with a subtle border to distinguish it from the page background.
+*/
 .bot-msg {
   align-self: flex-start;
-  background-color: #f3e8ff;
-  color: #4a006e;
+  background-color: var(--bot-msg-bg);
+  color: var(--text-primary);
+  border: 1px solid var(--bot-msg-border); /* Adds a subtle border for better visual separation */
 }
 
+/* Ensure bot message links are visible and follow the accent color */
+.bot-msg a {
+  color: var(--accent-color);
+  text-decoration: underline;
+}
+
+/*
+  TYPING INDICATOR: Aligned to the LEFT.
+  This ensures the "Asha is typing..." message appears on the bot's side.
+*/
 .typing-indicator {
+  align-self: flex-start; /* <<< ADD THIS LINE */
   font-style: italic;
-  color: #666;
-  font-size: 0.9rem;
+  /* color: var(--text-secondary); */
+   color: var(--accent-color);
+  font-size: 0.8rem;
+  padding-left: 100px;
 }
 
-.chat-input-section {
-  display: flex;
-  padding: 12px;
-  gap: 8px;
-  border-top: 1px solid #ddd;
-  background-color: #ffffff;
-  position: sticky;
+
+/* ======================================= */
+/* === Input Container === */
+/* This section is heavily modified for floating input bar */
+/* ======================================= */
+
+/* === Input Container === */
+.modern-input-container {
+  position: fixed;
   bottom: 0;
-  z-index: 100;
+  left: 0;
+  right: 0;
+  z-index: 10;
+  pointer-events: none;
+  background: linear-gradient(to top, 
+    var(--cloud-gradient-color) 20%, 
+    var(--cloud-gradient-transparent) 100%
+  );
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  padding: 0 20px 20px 20px;
+  height: 140px;
 }
 
-.chat-input-section input {
+.input-wrapper {
+  background-color: var(--input-bg);
+  border-radius: 18px;
+  border: 1px solid var(--border-color);
+  display: flex;
+  align-items: flex-end;
+  padding: 0.3rem 0.5rem;
+  box-shadow: 0 4px 20px var(--shadow-color); /* Enhanced shadow for floating */
+  max-width: 500px; /* Set a max-width for the input */
+  width: 100%; /* Make it responsive within the max-width */
+  gap: 2px;
+  transition: all 0.2s ease;
+  
+  /* This is the other key: Re-enable clicks ONLY for the input box and its contents */
+  pointer-events: auto;
+}
+
+.input-wrapper:focus-within {
+  border-color: var(--accent-color);
+  box-shadow: 0 2px 15px var(--shadow-color);
+}
+
+.modern-input {
   flex: 1;
-  padding: 10px 14px;
-  border-radius: 24px;
-  border: 1px solid #ccc;
-  outline: none;
-  font-size: 1rem;
-}
-
-.chat-input-section button {
-  background-color: #6a52a0;
   border: none;
-  color: white;
-  border-radius: 50%;
-  width: 40px;
-  height: 40px;
-  display: grid;
-  place-items: center;
-  cursor: pointer;
-  transition: background-color 0.2s ease-in-out;
+  background: transparent;
+  padding: 0.25rem 0.5rem; /* Padding inside the text area */
+  resize: none;
+  outline: none;
+  font-size: 0.85rem;
+  line-height: 1.2;
+  color: var(--text-primary);
+  max-height: 80px;
+  overflow-y: auto;
+  font-family: inherit;
 }
 
-.chat-input-section button:disabled {
-  background-color: #6a52a0;
+.modern-input::placeholder {
+  color: var(--text-tertiary);
+}
+
+/* ======================================= */
+/* === Icon Buttons === */
+/* ======================================= */
+
+.input-icon-button {
+  border: none;
+  border-radius: 50%;
+  width: 38px; /* Slightly larger buttons for better usability in a floating bar */
+  height: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  background-color: transparent;
+  color: var(--text-secondary);
+  flex-shrink: 0;
+  position: relative;
+}
+
+.input-icon-button:disabled {
+  opacity: 0.5;
   cursor: not-allowed;
 }
 
-.chat-input-section button:hover:not(:disabled) {
-  background-color: #573d90;
+/* ======================================= */
+/* === Mic Button Styling === */
+/* ======================================= */
+
+/* Light theme mic button */
+.modern-mic-button {
+  background-color: transparent;
+  color: var(--accent-color);
+}
+
+.modern-mic-button:hover:not(:disabled) {
+  background-color: rgba(49, 130, 206, 0.1); /* Light blue tint */
+  color: var(--accent-color);
+}
+
+/* Mic button when active (listening) */
+.modern-mic-button.listening {
+  background-color: rgba(49, 130, 206, 0.2);
+  color: var(--accent-color);
+}
+
+/* Dark theme mic button */
+.dark-theme .modern-mic-button {
+  color: var(--text-secondary);
+}
+
+.dark-theme .modern-mic-button:hover:not(:disabled) {
+  background-color: rgba(49, 130, 206, 0.2);
+  color: var(--accent-color);
+}
+
+/* Dark theme mic button when active */
+.dark-theme .modern-mic-button.listening {
+  background-color: var(--accent-color);
+  color: white;
+}
+
+/* ======================================= */
+/* === Send Button Styling === */
+/* ======================================= */
+
+/* Light theme send button - disabled state */
+.modern-send-button {
+  background-color: rgba(49, 130, 206, 0.2); /* Light blue shade */
+  color: var(--accent-color);
+}
+
+/* Light theme send button - enabled state */
+.modern-send-button:not(:disabled) {
+  background-color: var(--accent-color); /* Dark blue shade */
+  color: white;
+}
+
+.modern-send-button:not(:disabled):hover {
+  background-color: var(--accent-hover);
+  transform: scale(1.05);
+}
+
+/* Dark theme send button - disabled state */
+.dark-theme .modern-send-button {
+  background-color: var(--bg-tertiary); /* Grey background */
+  color: var(--text-secondary);
+}
+
+/* Dark theme send button - enabled state */
+.dark-theme .modern-send-button:not(:disabled) {
+  background-color: var(--accent-color); /* Blue background */
+  color: white;
+}
+
+.dark-theme .modern-send-button:not(:disabled):hover {
+  background-color: var(--accent-hover);
+  transform: scale(1.05);
+}
+/* Ensure icons are centered */
+.input-icon-button svg {
+  display: block;
+  margin: auto;
+}
+
+/* ======================================= */
+/* === New Chat Button === */
+/* ======================================= */
+
+.new-chat-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 0.5rem; /* Reduced margin */
+}
+
+.new-chat-button {
+  background-color: transparent;
+  border: 1px solid var(--border-color);
+  color: var(--text-secondary);
+  padding: 0.4rem 1.2rem; /* Reduced padding */
+  border-radius: 18px; /* Slightly reduced border-radius */
+  font-size: 0.8rem; /* Slightly smaller font size */
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-weight: 500;
+}
+
+.new-chat-button:hover {
+  background-color: var(--bg-secondary);
+  color: var(--text-primary);
+  border-color: var(--text-tertiary);
+}
+
+/* ======================================= */
+/* === Responsive Design === */
+/* ======================================= */
+
+/* Tablets and small laptops */
+@media (max-width: 1024px) {
+  .modern-input-container {
+    padding: 35px 0 18px 0;
+  }
+  
+  .input-wrapper {
+    max-width: 350px;
+    width: 85%;
+  }
+}
+
+/* Mobile devices */
+@media (max-width: 768px) {
+  .chat-container::before {
+    height: 45px;
+  }
+  
+  .chat-body {
+    padding: 0.5rem 0.8rem;
+    padding-bottom: 15px;
+  }
+  
+  .modern-input-container {
+    padding: 30px 0 15px 0;
+  }
+  
+  .input-wrapper {
+    max-width: 100%;
+    width: 92%;
+    padding: 0.2rem 0.4rem;
+  }
+  
+  .modern-input {
+    font-size: 0.8rem;
+    max-height: 70px;
+  }
+  
+  .input-icon-button {
+    width: 34px;
+    height: 34px;
+  }
+}
+
+/* Small mobile devices */
+@media (max-width: 480px) {
+  .modern-input-container {
+    padding: 25px 0 10px 0;
+  }
+  
+  .input-wrapper {
+    width: 95%;
+  }
+}
+
+/* ======================================= */
+/* === Input Textarea Scrollbar === */
+/* ======================================= */
+
+.modern-input::-webkit-scrollbar {
+  width: 4px;
+}
+
+.modern-input::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.modern-input::-webkit-scrollbar-thumb {
+  background: var(--scrollbar-thumb);
+  border-radius: 2px;
+}
+
+/* ======================================= */
+/* === Markdown Content Styling === */
+/* ======================================= */
+
+.chat-message p {
+  margin: 0 0 0.3rem 0; /* Reduced margin */
+}
+
+.chat-message p:last-child {
+  margin-bottom: 0;
+}
+
+.chat-message ul,
+.chat-message ol {
+  margin: 0.3rem 0; /* Reduced margin */
+  padding-left: 1.2rem; /* Reduced padding */
+}
+
+.chat-message code {
+  background-color: var(--bg-tertiary);
+  padding: 0.15rem 0.3rem; /* Reduced padding */
+  border-radius: 3px; /* Reduced border-radius */
+  font-size: 0.85em; /* Slightly smaller font size */
+}
+
+.chat-message pre {
+  background-color: var(--bg-tertiary);
+  padding: 0.8rem; /* Reduced padding */
+  border-radius: 6px; /* Reduced border-radius */
+  overflow-x: auto;
+  margin: 0.4rem 0; /* Reduced margin */
+}
+
+.chat-message pre code {
+  background: none;
+  padding: 0;
+}
+
+.rotating-headings-container {
+    text-align: center;
+    margin-top: 8px; /* Adjust spacing as needed */
+}
+
+.rotating-heading {
+    text-decoration: none;
+    color: #007bff; /* Example link color */
+    font-weight: bold;
+    font-size: 15px; /* Slightly smaller font size */
+    transition: opacity 0.5s ease-in-out; /* Optional fade effect */
+}
+
+.job-results-container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-top: 16px;
+  max-width: 100%;
+}
+
+/* Make sure job cards fit within bot messages */
+.bot-msg .job-card {
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+/* Add this new style */
+.chat-message:last-child {
+  margin-bottom: 10px; /* Small margin to ensure last message is visible */
+}
+
+/* Update empty chat state */
+.empty-chat {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+
+/* New class for initial input container */
+.initial-input-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  padding: 20px;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+}
+
+.initial-input-container .input-wrapper {
+  max-width: 600px; /* Adjust as needed */
+  width: 100%;
+  background-color: var(--input-bg);
+  border-radius: 18px;
+  border: 1px solid var(--border-color);
+  display: flex;
+  align-items: center;
+  padding: 0.3rem 0.5rem;
+  box-shadow: 0 4px 20px var(--shadow-color);
+}
+
+.input-container-initial {
+  position: relative; /* Not fixed */
+  pointer-events: auto;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding: 20px 0;
+  margin-top: 20px; /* Space below title */
 }
 
 
 
 
+.resume-builder-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.resume-builder-container {
+  background-color: white;
+  border-radius: 10px;
+  padding: 20px;
+  width: 80%;
+  max-width: 600px;
+  max-height: 80%;
+  overflow-y: auto;
+  position: relative;
+}
+
+.close-resume-builder {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+}

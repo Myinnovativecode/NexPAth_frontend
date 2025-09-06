@@ -1,85 +1,261 @@
-/* Sidebar container */
-.sidebar {
-  width: 120px;
-  min-height: 100vh;
-  background-color: #f3f0ff; /* Light pastel purple */
-  border-right: 2px solid #dddd;
+/* === Variables (Assumed from your setup) === */
+
+:root {
+  --sidebar-bg: #1e293b; /* A sample dark blue-gray */
+  --bg-secondary: #334155; /* A lighter gray for hover states */
+  --text-primary: #f8fafc; /* Off-white */
+  --text-secondary: #94a3b8; /* Lighter gray for subtitles */
+  --accent-color: #3b82f6; /* A nice blue for buttons and accents */
+  --accent-hover: #2563eb;
+  --button-text: #ffffff;
+  --border-color: #334155;
+  --shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+  --scrollbar-thumb: #4b5563;
+  --scrollbar-thumb-hover: #6b7280;
+}
+
+/* === Sidebar Container (Card Format) === */
+.sidebar-container {
+  /* It is now hidden by default on all screen sizes */
+  position: fixed;
+  top: 50px;
+  left: -350px; /* Hidden by default -340*/   
+  width: 300px;
+  max-height: calc(100vh - 120px);
+  background-color: var(--sidebar-bg);
+  color: var(--text-primary);
+  border-radius: 12px;
+  box-shadow: var(--shadow);
+  border: 1px solid var(--border-color);
   padding: 1rem;
-  overflow: hidden;
-  transition: width 0.3s ease;
+  overflow-y: auto;
+  transition: left 0.4s ease-in-out;
+  z-index: 1200;
+  display: flex;
+  flex-direction: column;
 }
 
-/* Sidebar collapsed state */
-.sidebar.closed {
-  width: 0;
-  padding: 0;
-  border: none;
+/* Class to control the open state on ALL screen sizes */
+.sidebar-container.is-open {
+  left: 20px; /* Slides the sidebar into view */
 }
 
-/* Sidebar logo */
-.sidebar-logo {
-  width: 70px;
-  height: auto;
-  margin-bottom: 20px;
-  display: block;
+/* THE @media QUERY HAS BEEN REMOVED */
+
+
+
+/* === Sidebar Header === */
+.sidebar-header {
+  margin-bottom: 1rem;
+  flex-shrink: 0; /* Prevents header from shrinking */
 }
 
-/* Sidebar menu list */
-.sidebar-menu {
-  list-style: none;
-  padding: 0;
+.sidebar-title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--accent-color);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   margin: 0;
+  letter-spacing: 0.5px;
 }
 
-/* Sidebar list items */
-.sidebar-menu li {
+/* === New Chat Button === */
+/* === Navigation Button Style (for New Chat, etc.) === */
+.new-chat-btn {
+  /* width: 100%; */
+  /* Change the background to be subtle */
+  background-color: transparent; 
+  /* Change text color to match the primary text */
+  color: var(--text-primary); 
+  border-radius: 8px;
+  padding: 10px 12px; /* Adjust padding for a spacious feel */
+  font-size: 0.95rem; /* Slightly smaller font */
+  font-weight: 500; /* Less bold */
+  cursor: pointer;
+  border: 1px solid transparent; /* Start with an invisible border */
   display: flex;
   align-items: center;
-  font-size: 16px;
-  margin: 0.8rem 0;
-  cursor: pointer;
-  padding: 0.2rem 0.4rem;
-  border-radius: 6px;
-  transition: background 0.2s, padding 0.2s;
-  color: #333;
-}
-
-/* Icon styles inside list items */
-.sidebar-menu li svg {
-  margin-right: 8px;
-  font-size: 18px;
+  /* Align content to the left */
+  justify-content: flex-start; 
+  gap: 0.75rem; /* Increase space between icon and text */
+  margin-bottom: 0.5rem; /* Reduce bottom margin */
+  transition: all 0.2s ease;
   flex-shrink: 0;
 }
 
-/* Hover effect for list items */
-.sidebar-menu li:hover {
-  background-color: #c6bde8; /* Soft hover pastel */
+/* Style for when you hover over the button */
+.new-chat-btn:hover {
+  background-color: var(--bg-secondary); /* Use the subtle hover color */
 }
 
-/* Welcome message style */
-.welcome-msg {
-  font-weight: bold;
-  color: #6a42c1;
-  cursor: default;
+/* Style for when a button is 'active' or 'selected' */
+.new-chat-btn.active {
+  background-color: var(--bg-secondary);
+  color: var(--text-primary);
+  font-weight: 600; /* Make active text slightly bolder */
 }
 
-/* Logout button style */
-.logout-btn {
-  color: #b33939;
+/* === Main Dashboard Section === */
+.dashboard-content {
+  overflow-y: auto; /* Allows this section to scroll if content exceeds height */
+  flex-grow: 1; /* Allows this section to fill available space */
 }
 
-/* Sidebar toggle button (if needed) */
-.sidebar-toggle {
-  position: absolute;
-  top: 10px;
-  left: 10px;
-  background-color: #d8c4f1;
-  color: #000;
-  border: none;
-  border-radius: 4px;
-  padding: 6px 10px;
+.dashboard-title {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--border-color);
+  margin-bottom: 1rem;
+}
+
+/* === Accordion Styling for Dashboard Items === */
+.accordion-item {
+  width: 100%;
+  margin-bottom: 0.75rem;
+}
+
+.accordion-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem;
   cursor: pointer;
-  z-index: 1000;
+  border-radius: 6px;
+  transition: background-color 0.2s ease;
 }
+
+.accordion-header:hover {
+  background-color: var(--bg-secondary);
+}
+
+.accordion-title {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-weight: 500;
+  font-size: 0.9rem;
+}
+
+.item-count {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  margin-left: 0.25rem;
+}
+
+.accordion-chevron {
+  transition: transform 0.3s ease;
+  font-size: 0.7rem;
+  color: var(--text-secondary);
+}
+
+.accordion-chevron.open {
+  transform: rotate(180deg);
+}
+
+.accordion-content {
+  padding-left: 1.5rem; /* Indent content further */
+  margin-top: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+/* === Styling for items inside the Accordion (Jobs, Docs, etc.) === */
+.dashboard-list-item {
+  display: flex;
+  flex-direction: column;
+  padding: 0.6rem 0.5rem;
+  border-radius: 4px;
+  transition: background-color 0.2s ease;
+  text-decoration: none;
+  color: var(--text-primary);
+}
+
+.dashboard-list-item:hover {
+  background-color: var(--bg-secondary);
+}
+
+.item-title {
+  font-size: 0.85rem;
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.item-subtitle {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  margin-top: 2px;
+}
+
+.empty-section {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  padding: 0.5rem;
+}
+
+
+/* === Career Tip Card === */
+.career-tip-card {
+  background-color: var(--bg-secondary);
+  border-radius: 8px;
+  padding: 1rem;
+  margin-top: 1rem;
+  border-left: 3px solid var(--accent-color);
+  flex-shrink: 0; /* Prevent from shrinking */
+}
+
+.career-tip-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.career-tip-text {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  margin-top: 0.5rem;
+  line-height: 1.5;
+}
+
+/* === Loading/Empty State Message === */
+.empty-history {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  text-align: center;
+  margin-top: 2rem;
+}
+
+/* === General Scrollbar Styling === */
+.sidebar-container::-webkit-scrollbar,
+.dashboard-content::-webkit-scrollbar {
+  width: 6px;
+}
+
+.sidebar-container::-webkit-scrollbar-track,
+.dashboard-content::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.sidebar-container::-webkit-scrollbar-thumb,
+.dashboard-content::-webkit-scrollbar-thumb {
+  background: var(--scrollbar-thumb);
+  border-radius: 4px;
+}
+
+.sidebar-container::-webkit-scrollbar-thumb:hover,
+.dashboard-content::-webkit-scrollbar-thumb:hover {
+  background: var(--scrollbar-thumb-hover);
+}
+
+
 
 
