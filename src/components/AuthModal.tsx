@@ -5,7 +5,7 @@ import "./AuthModal.css";
 interface AuthModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onAuthSuccess: (userId: string, name: string, email: string) => void; // Updated to include email
+  onAuthSuccess: (userId: string, name: string, email: string) => void;
   mode: "login" | "signup";
 }
 
@@ -40,9 +40,8 @@ const AuthModal: React.FC<AuthModalProps> = ({
 
       const data = await response.json();
       if (response.ok && data.user_id) {
-        // Pass email to onAuthSuccess
         onAuthSuccess(data.user_id, data.name || name, email);
-        onClose(); // Close modal on success
+        onClose();
       } else {
         alert(data.detail || "Authentication failed");
       }
@@ -83,7 +82,7 @@ const AuthModal: React.FC<AuthModalProps> = ({
             type="button"
             className="google-button"
             onClick={() => {
-              window.location.href = "http://localhost:8000/auth/google/login";
+              window.location.href = `${API_BASE_URL}/auth/google/login`; // ✅ FIXED!
             }}
           >
             Continue with Google
