@@ -1,3 +1,4 @@
+import API_BASE_URL from '../api'; // Add this import
 import React, { JSX, useState } from 'react';
 import axios from 'axios';
 import './ResumeBuilder.css';
@@ -199,7 +200,7 @@ const ResumeBuilder: React.FC<ResumeBuilderProps> = ({
       };
 
       const response: AxiosResponse<ResumeCreationResponse> = await axios.post(
-        'http://localhost:8000/resumes/',
+        `${API_BASE_URL}/resumes/`, // ✅ Changed from 'http://localhost:8000/resumes/'
         resumeData
       );
 

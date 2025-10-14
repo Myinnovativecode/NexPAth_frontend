@@ -1,6 +1,7 @@
 // SavedJobsList.tsx
 import React, { useEffect, useState } from 'react';
 import './SavedJobsList.css';
+import API_BASE_URL from '../api'; // ✅ Add this import
 
 interface SavedJob {
   id: number;
@@ -31,7 +32,7 @@ const SavedJobsList: React.FC<SavedJobsListProps> = ({ userId }) => {
       setError(null);
       console.log("Fetching saved jobs for user:", userId);
       
-      const response = await fetch(`http://localhost:8000/users/${userId}/dashboard`);
+      const response = await fetch(`${API_BASE_URL}/users/${userId}/dashboard`); // ✅ Changed
       console.log("Dashboard response status:", response.status);
       
       if (!response.ok) {
@@ -68,7 +69,7 @@ const SavedJobsList: React.FC<SavedJobsListProps> = ({ userId }) => {
     try {
       console.log(`Deleting job ${jobId} for user ${userId}`);
       
-      const response = await fetch(`http://localhost:8000/users/${userId}/jobs/${jobId}`, {
+      const response = await fetch(`${API_BASE_URL}/users/${userId}/jobs/${jobId}`, { // ✅ Changed
         method: 'DELETE',
       });
       

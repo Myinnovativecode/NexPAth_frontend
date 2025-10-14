@@ -1,3 +1,4 @@
+import API_BASE_URL from '../api';
 import React, { useState, FormEvent, useEffect } from "react";
 import "./AuthModal.css";
 
@@ -29,7 +30,7 @@ const AuthModal: React.FC<AuthModalProps> = ({
     const payload = isLogin ? { email } : { name, email };
 
     try {
-      const response = await fetch(`http://localhost:8000/auth${endpoint}`, {
+      const response = await fetch(`${API_BASE_URL}/auth${endpoint}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

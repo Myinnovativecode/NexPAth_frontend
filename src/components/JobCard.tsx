@@ -1,4 +1,5 @@
 // JobCard.tsx
+import API_BASE_URL from '../api'; // Add this import
 import React, { useState, useRef } from 'react';
 import './JobCard.css';
 import { FiCopy, FiCheck } from 'react-icons/fi'; // Import icons (install with: npm install react-icons)
@@ -40,7 +41,7 @@ const JobCard: React.FC<JobCardProps> = ({ job, userId }) => {
     setIsSaving(true);
     
     try {
-      const response = await fetch(`http://localhost:8000/users/${userId}/jobs`, {
+      const response = await fetch(`${API_BASE_URL}/users/${userId}/jobs`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

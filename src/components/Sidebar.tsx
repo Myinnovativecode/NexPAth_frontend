@@ -1,5 +1,5 @@
 // In Sidebar.tsx
-
+import API_BASE_URL from '../api';
 import React, { useState, useEffect } from 'react';
 // Import icons you'll need
 import { FiBookmark, FiFileText, FiCalendar, FiSun, FiMessageCircle } from 'react-icons/fi';
@@ -82,7 +82,7 @@ const Sidebar: React.FC<SidebarProps> = ({ userId, onNewChat, className }) => {
   const fetchDashboardData = async () => {
     try {
       setLoading(true);
-      const response = await fetch(`http://localhost:8000/users/${userId}/dashboard`);
+      const response = await fetch(`${API_BASE_URL}/users/${userId}/dashboard`); // ✅ Changed
       if (!response.ok) {
         throw new Error('Failed to fetch dashboard data');
       }

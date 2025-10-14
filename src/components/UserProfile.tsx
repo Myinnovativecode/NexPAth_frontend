@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./UserProfile.css";
+import API_BASE_URL from '../api';
 
 interface UserProfileProps {
   userId: string;
@@ -20,7 +21,7 @@ const UserProfile: React.FC<UserProfileProps> = ({ userId }) => {
   useEffect(() => {
     const fetchUserProfile = async () => {
       try {
-        const response = await fetch(`http://localhost:8000/user/${userId}`);
+        const response = await fetch(`${API_BASE_URL}/user/${userId}`); // ✅ Changed
         if (!response.ok) throw new Error("Failed to fetch user profile");
 
         const data = await response.json();

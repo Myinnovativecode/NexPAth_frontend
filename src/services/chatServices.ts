@@ -1,8 +1,8 @@
 // src/services/chatServices.ts
-
+import API_BASE_URL from '../api'; // ✅ Add this import
 export const sendMessageToAPI = async (message: string, userId: string) => {
   try {
-    const response = await fetch("http://127.0.0.1:8000/chat/", {
+    const response = await fetch(`${API_BASE_URL}/chat/`, { // ✅ Changed
       method: "POST",
       headers: {
         "Content-Type": "application/json",

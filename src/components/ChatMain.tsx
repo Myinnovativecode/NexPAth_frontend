@@ -1,3 +1,4 @@
+import API_BASE_URL from '../api'; // Add this import at the top
 import React, { useState, useEffect, useRef, useLayoutEffect } from 'react';
 import './ChatMain.css';
 import axios from 'axios'; // Add this import
@@ -212,11 +213,11 @@ const handleSend = async () => {
   };
   
   try {
-    const response = await fetch('http://localhost:8000/chat/', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload),
-    });
+    const response = await fetch(`${API_BASE_URL}/chat/`, {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify(payload),
+});
 
     const data = await response.json();
     console.log('Response:', data);
