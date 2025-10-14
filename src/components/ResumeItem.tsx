@@ -2,6 +2,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import axios from 'axios';
 import './ResumeItem.css';
+import API_BASE_URL from '../api'; // ✅ Add this import
 
 interface ResumeItemProps {
   id: number;
@@ -56,7 +57,7 @@ const ResumeItem: React.FC<ResumeItemProps> = ({
   const handleDelete = async () => {
     if (window.confirm('Are you sure you want to delete this resume?')) {
       try {
-        await axios.delete(`http://localhost:8000/resumes/${id}?user_id=${userId}`);
+        await axios.delete(`${API_BASE_URL}/resumes/${id}?user_id=${userId}`); // ✅ FIXED!
         onDelete(id);
         setShowContextMenu(false);
       } catch (error) {
@@ -84,7 +85,7 @@ const handleRename = async () => {
       const body = new URLSearchParams();
       body.append('new_name', newName);
 
-      await axios.patch(`http://localhost:8000/resumes/${id}/rename?user_id=${userId}`, body, {
+      await axios.patch(`${API_BASE_URL}/resumes/${id}/rename?user_id=${userId}`, body, { // ✅ FIXED!
           headers: {
               'Content-Type': 'application/x-www-form-urlencoded'
           }

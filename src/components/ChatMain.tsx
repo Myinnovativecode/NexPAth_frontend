@@ -135,7 +135,7 @@ const ChatMain: React.FC<ChatMainProps> = ({ userId, sessionId, onNewSession }) 
   useEffect(() => {
     const fetchHeadings = async () => {
       try {
-        const response = await fetch('http://localhost:8000/headings'); // Replace with your API endpoint
+        const response = await fetch(`${API_BASE_URL}/headings`); // ✅ FIXED!
         const data = await response.json();
         setHeadings(data);
       } catch (error) {
@@ -169,8 +169,8 @@ const ChatMain: React.FC<ChatMainProps> = ({ userId, sessionId, onNewSession }) 
 
   useEffect(() => {
     if (sessionId && sessionId !== currentSessionId) {
-      fetch(`http://localhost:8000/chat/session/${sessionId}`)
-        .then((res) => res.json())
+      fetch(`${API_BASE_URL}/chat/session/${sessionId}`) // ✅ FIXED!
+      .then((res) => res.json())
         .then((data) => {
           const msgs: Message[] = data.messages.map((msg: any) => ({
             sender: msg.sender,
@@ -279,7 +279,7 @@ const handleResumeComplete = async (data: { download_url: string, resume_id?: nu
 
     // Optional: Fetch and display resume details
     if (data.resume_id) {
-      const resumeDetails = await axios.get(`/resumes/${data.resume_id}`);
+      const resumeDetails = await axios.get(`${API_BASE_URL}/resumes/${data.resume_id}`); // ✅ FIXED!
       // You can add more detailed message or store resume info
     }
 
