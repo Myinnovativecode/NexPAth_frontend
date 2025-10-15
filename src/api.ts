@@ -1,31 +1,36 @@
+// src/api.ts
 import axios from 'axios';
 
-// Base URL from environment variable
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000';
+// Prefer the Vite env var; fall back intelligently
+const envBase =
+  import.meta.env.VITE_API_BASE_URL ||
+  import.meta.env.VITE_API_URL || // optional secondary name
+  '';
 
-// Export the base URL so other components can use it
+const computedFallback =
+  typeof window !== 'undefined' && window.location.hostname.endsWith('vercel.app')
+    ? 'https://nexpathbackend-1.onrender.com'    // production fallback
+    : 'http://localhost:8000';                    // local dev fallback
+
+const API_BASE_URL = envBase || computedFallback;
+
+// Helpful one-time debug
+// console.log('API_BASE_URL:', API_BASE_URL);
+
 export default API_BASE_URL;
 
-// Define user interface
+export const apiClient = axios.create({
+  baseURL: API_BASE_URL,
+  withCredentials: true
+});
+
 export interface User {
   name: string;
   email: string;
   contact?: string;
 }
 
-// API client setup
-export const apiClient = axios.create({
-  baseURL: API_BASE_URL,
-  withCredentials: true
-});
-
-// Function to fetch user profile
 export const getUserProfile = async (userId: string): Promise<User> => {
-  try {
-    const response = await apiClient.get<User>(`/user/profile/${userId}`);
-    return response.data;
-  } catch (error) {
-    console.error('Error fetching user profile:', error);
-    throw error;
-  }
+  const response = await apiClient.get<User>(`/user/profile/${userId}`);
+  return response.data;
 };

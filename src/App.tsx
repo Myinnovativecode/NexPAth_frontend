@@ -24,51 +24,34 @@ const AppContent: React.FC = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    const uidFromUrl = params.get("user_id");
-    const name = params.get("name");
-    const email = params.get("email");
+// AppContent useEffect for reading URL params and localStorage
+useEffect(() => {
+  const params = new URLSearchParams(window.location.search);
+  const uidFromUrl = params.get("user_id");
+  const nameFromUrl = params.get("name");
+  const emailFromUrl = params.get("email");
 
-    const storedUser = localStorage.getItem("ashaUser");
-    
-    // Known working user ID from your MongoDB database
-    const knownWorkingId = "f5689d24-2172-440e-ae37-0d2777e04082";
+  const storedUser = localStorage.getItem("ashaUser");
 
-    if (uidFromUrl && name && email) {
-      // If we have URL params, use those but ensure we have the correct user ID
-      const firstName = name.split(" ")[0];
-      const newUser = { 
-        userId: knownWorkingId, // Use the known working ID
-        name: firstName, 
-        email 
-      };
-      localStorage.setItem("ashaUser", JSON.stringify(newUser));
-      setUserId(knownWorkingId);
-      setUserName(firstName);
-      window.history.replaceState({}, document.title, window.location.pathname);
-    } else if (storedUser) {
-      // We have a stored user, but make sure it has the correct ID
-      const parsed = JSON.parse(storedUser);
-      // Update the stored user with the correct ID if needed
-      if (parsed.userId !== knownWorkingId) {
-        const updatedUser = {
-          ...parsed,
-          userId: knownWorkingId,
-          email: parsed.email || "" // Ensure email is preserved
-        };
-        localStorage.setItem("ashaUser", JSON.stringify(updatedUser));
-      }
-      setUserId(knownWorkingId); // Always use the known working ID
-      setUserName(parsed.name);
-    } else {
-      // No stored user, show auth modal after timeout
-      // But also set the working ID in the background
-      setUserId(knownWorkingId);
-      const timer = setTimeout(() => setAuthModalOpen(true), 8000);
-      return () => clearTimeout(timer);
-    }
-  }, []);
+  if (uidFromUrl && nameFromUrl && emailFromUrl) {
+    const firstName = nameFromUrl.split(" ")[0];
+    const userData = { userId: uidFromUrl, name: firstName, email: emailFromUrl };
+    localStorage.setItem("ashaUser", JSON.stringify(userData));
+    setUserId(uidFromUrl);
+    setUserName(firstName);
+
+    // Clean URL so params don’t linger
+    window.history.replaceState({}, document.title, window.location.pathname);
+  } else if (storedUser) {
+    const parsed = JSON.parse(storedUser);
+    setUserId(parsed.userId);
+    setUserName(parsed.name);
+  } else {
+    // No user—show auth modal shortly
+    const timer = setTimeout(() => setAuthModalOpen(true), 800);
+    return () => clearTimeout(timer);
+  }
+}, []);
 
   // Fix for keeping header elements visible - this will reset position if they get pushed out
   useEffect(() => {
